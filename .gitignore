@@ -1,2 +1,7 @@
 *.pyc
 __pycache__/
+.DS_Store
+*.log
+.env
+posted_urls.json
+candidate_history.json
