@@ -1,7 +1,7 @@
 ---
 name: hot-tools-tweet
 description: "发现推特上火起来的实用工具，写成带教程的中文推文，推送到 Telegram。不限品类：AI工具、视频下载器、Git客户端、白嫖神器，只要是普通人能懂能用的都行。"
-version: 1.1.0
+version: 1.2.0
 author: 0xMulight
 metadata:
   hermes:
@@ -47,6 +47,31 @@ hot-tools-tweet/
 - **普通人能懂能用**：不推架构/框架/论文/企业级平台/观点文章，只推个人用户能直接上手的东西
 - 每条必须带使用教程：安装命令、操作步骤、常见坑修复
 - **不提平台数据**：不说"HN上xxx赞"、"Twitter上xxx互动"，直接讲工具本身
+
+## 优先选题：主流 Agent 生态工具
+
+以下生态的工具享有**选题优先权**，在评分相近时优先入选：
+
+| 生态 | 覆盖范围 |
+|---|---|
+| **Hermes** | skills、plugins、MCP 服务器、agent 配置工具、工作流工具 |
+| **Codex** | CLI 工具、SDK、VSCode 扩展、工作流集成 |
+| **Claude Code** | hooks、skills、MCP 工具、agent 编排 |
+| **Cursor** | rules、扩展、工作区工具 |
+| **Copilot** | 扩展、agent 模式工具、VSCode 集成 |
+| **通用 Agent 工具** | MCP 服务器、agent 记忆工具、多 agent 编排、自主 agent 框架 |
+
+### 判定标准
+
+- 工具名称或 README 中明确提到上述 agent 名称
+- 工具的核心功能是增强某个 agent 的能力（如添加新工具、优化上下文、持久化记忆）
+- MCP 服务器只要实用、有明确 agent 集成路径即可入选
+
+### 不选的内容
+
+- 不知名的 agent 项目（没有 GitHub 星或社区讨论）
+- 纯论文、架构设计、概念验证（没有可执行的代码）
+- 仅支持某个小众 agent / 已停止维护的项目
 
 ## 信源优先级
 
