@@ -1,7 +1,7 @@
 ---
 name: hot-tools-tweet
 description: "发现推特上火起来的实用工具，写成带教程的中文推文，推送到 Telegram。不限品类：AI工具、视频下载器、Git客户端、白嫖神器，只要是普通人能懂能用的都行。"
-version: 1.0.0
+version: 1.1.0
 author: 0xMulight
 metadata:
   hermes:
@@ -16,6 +16,25 @@ metadata:
       - "工具推荐"
       - "tools tweet"
 ---
+
+
+## 仓库结构
+
+```
+hot-tools-tweet/
+├── SKILL.md                   # Hermes 技能定义（本文件）
+├── README.md                  # 项目说明
+├── .gitignore
+├── scripts/
+│   └── ai_content_scout.py   # 信源采集脚本
+├── examples/
+│   └── sample-tweets.md      # 推文示例
+├── references/
+│   └── gateway-proxy-fix.md  # Gateway 代理修复
+└── .github/
+    └── workflows/
+        └── validate-skill.yml # CI 自动校验 SKILL.md 格式
+```
 
 # Hot Tools Tweet — 热门工具推文
 
