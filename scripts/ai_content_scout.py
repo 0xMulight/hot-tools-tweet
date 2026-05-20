@@ -69,6 +69,66 @@ def fetch_github_ai():
     return results
 
 
+# ─── 信源 1b: GitHub Agent 生态工具（Hermes/Codex/Claude/Cursor 等）───
+
+AGENT_QUERIES = [
+    # Hermes 生态
+    "hermes+agent+skill+topic:ai",
+    "hermes+agent+plugin+topic:ai",
+    # Codex 生态
+    "openai+codex+cli+topic:ai",
+    "codex+sdk+topic:ai",
+    # Claude Code 生态
+    "claude+code+tool+topic:ai",
+    "claude+agent+skill+topic:ai",
+    # Cursor 生态
+    "cursor+extension+topic:ai",
+    "cursor+rule+topic:ai",
+    # 通用 agent 工具
+    "MCP+server+tool+topic:ai",
+    "coding+agent+tool+topic:ai",
+    "agent+memory+tool+topic:ai",
+    "autonomous+agent+framework+topic:ai",
+    # Copilot / Windsurf / Aider
+    "github+copilot+extension+topic:ai",
+    "aider+AI+coding+topic:ai",
+    "windsurf+tool+topic:ai",
+]
+
+
+def fetch_github_agents():
+    """搜 GitHub 上主流 agent 生态（Hermes/Codex/Claude/Cursor 等）的新工具"""
+    since = (datetime.now(timezone.utc) - timedelta(days=14)).strftime("%Y-%m-%d")
+    all_results = []
+    seen = set()
+
+    for query in AGENT_QUERIES:
+        q = f"{query}+created:>{since}"
+        url = f"https://api.github.com/search/repositories?q={q}&sort=stars&order=desc&per_page=5"
+        data = fetch_json(url)
+        if not data:
+            continue
+        for repo in data.get("items", []):
+            if repo["html_url"] in seen:
+                continue
+            seen.add(repo["html_url"])
+            # agent 生态工具先天权重加成
+            agent_bonus = 1.5
+            all_results.append({
+                "source": "github/agents",
+                "title": repo["full_name"],
+                "desc": (repo.get("description") or "").strip()[:200],
+                "url": repo["html_url"],
+                "stars": repo["stargazers_count"],
+                "lang": repo.get("language") or "",
+                "topics": repo.get("topics", [])[:5],
+                "score": int(repo["stargazers_count"] * agent_bonus),
+            })
+
+    all_results.sort(key=lambda x: x["score"], reverse=True)
+    return all_results[:15]
+
+
 # ─── 信源 2: Hacker News AI 热帖 ─────────────────────
 
 AI_KW = {"ai", "llm", "gpt", "claude", "openai", "deepseek", "gemini",
@@ -283,6 +343,11 @@ def main():
     gh = fetch_github_ai()
     print(f"[scout]   → {len(gh)} repos", file=sys.stderr)
     all_items.extend(gh)
+
+    print("[scout] GitHub Agent 生态 (Hermes/Codex/Claude/Cursor)...", file=sys.stderr)
+    ga = fetch_github_agents()
+    print(f"[scout]   → {len(ga)} repos", file=sys.stderr)
+    all_items.extend(ga)
 
     print("[scout] Hacker News...", file=sys.stderr)
     hn = fetch_hackernews_ai()
